@@ -4,6 +4,8 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
+namespace SMAPI_AndroidTool;
+
 public class UpFilesSettings : CommandSettings
 {
     [CommandOption("--files <FILES>")]

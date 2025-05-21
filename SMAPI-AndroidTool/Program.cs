@@ -1,5 +1,7 @@
 ﻿using Spectre.Console.Cli;
 
+namespace SMAPI_AndroidTool;
+
 partial class Program
 {
 
@@ -11,11 +13,12 @@ partial class Program
             config.SetApplicationName("smapi.droid");
             config.AddCommand<UpFilesCommand>("upfiles")
               .WithDescription("Upload files with patterns");
+            config.AddCommand<AppCommand>("app")
+              .WithDescription("Interactive with app, such start or stop");
         });
 
-        app.Run(args);
+        int runResult = app.Run(args);
 
-        Console.ReadLine();
-        return 0;
+        return runResult;
     }
 }
