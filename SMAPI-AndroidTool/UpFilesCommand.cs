@@ -50,11 +50,12 @@ public class UpFilesCommand : Command<UpFilesSettings>
     static void Log(params string[] args)
     {
         var text = string.Join(" ", args);
-        AnsiConsole.MarkupLine(text);
+        Console.WriteLine(text);
     }
+
     public override int Execute(CommandContext context, UpFilesSettings settings)
     {
-        Log("[green]Uploading files into AppData/files/... ", "[/]");
+        AnsiConsole.MarkupLine("[green]Uploading files into AppData/files/... [/]");
         // assert
         settings.DestDir = settings.DestDir.Replace("\\", "/");
 
@@ -72,11 +73,11 @@ public class UpFilesCommand : Command<UpFilesSettings>
             var fileSrcPath = fileInfo.FullName;
             if (Utils.PushFile(fileSrcPath, destDirPath))
             {
-                Log("[green]", "Done push file to:", destDirPath, "[/]");
+                Log("Done push file to:", destDirPath);
             }
         }
 
-        Log("[green] Successfully UpFiles Command [/]");
+        AnsiConsole.MarkupLine("[green] Successfully UpFiles Command [/]");
 
         return 0;
     }
