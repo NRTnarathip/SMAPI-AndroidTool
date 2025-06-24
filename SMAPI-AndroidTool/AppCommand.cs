@@ -25,26 +25,35 @@ class AppCommandSetting : CommandSettings
 }
 internal class AppCommand : Command<AppCommandSetting>
 {
-    public static void StartApp()
+    public static bool StartApp()
     {
         Console.WriteLine("Try start app...");
         var done = Adb.Run("shell am start -n \"abc.smapi.gameloader/crc64e91f1276c636690c.LauncherActivity\" --ez \"IsClickStartGame\" true");
-        if (done)
-        {
-            Console.WriteLine("Started App");
-        }
+        if (!done)
+            return false;
+
+        Console.WriteLine("Started App");
+        return true;
     }
-    public static void StopApp()
+    public static bool StopApp()
     {
         Console.WriteLine("Try force stop app...");
-        if (Adb.Run("shell am force-stop \"abc.smapi.gameloader"))
-            Console.WriteLine("Stopped App");
+        if (!Adb.Run("shell am force-stop \"abc.smapi.gameloader"))
+            return false;
+
+        Console.WriteLine("Stopped App");
+        return true;
     }
-    public static void RestartApp()
+    public static bool RestartApp()
     {
         Console.WriteLine("Try restart app...");
-        StopApp();
-        StartApp();
+        if (StopApp() && StartApp())
+        {
+            Console.WriteLine("Restarted app");
+            return true;
+        }
+
+        return false;
     }
     public override int Execute(CommandContext context, AppCommandSetting settings)
     {
@@ -57,15 +66,15 @@ internal class AppCommand : Command<AppCommandSetting>
 
         if (settings.IsRestart)
         {
-            RestartApp();
+            return RestartApp() ? 0 : -1;
         }
         else if (settings.IsStart)
         {
-            StartApp();
+            return StartApp() ? 0 : -1;
         }
         else if (settings.IsStop)
         {
-            StopApp();
+            return StopApp() ? 0 : -1;
         }
         AnsiConsole.MarkupLine("[green]Done App Interaction Tool[/]");
 

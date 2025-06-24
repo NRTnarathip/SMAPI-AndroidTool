@@ -29,6 +29,8 @@ internal static class Adb
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
 
+            Console.WriteLine(output);
+
             if (process.ExitCode != 0)
             {
                 AnsiConsole.MarkupLine("[red]ADB Error:\n" + error + "[/]");

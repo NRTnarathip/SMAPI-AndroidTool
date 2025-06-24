@@ -4,7 +4,6 @@ namespace SMAPI_AndroidTool;
 
 partial class Program
 {
-
     private static int Main(string[] args)
     {
         var app = new CommandApp();
@@ -15,6 +14,8 @@ partial class Program
               .WithDescription("Upload files with patterns");
             config.AddCommand<AppCommand>("app")
               .WithDescription("Interactive with app, such start or stop");
+            config.AddCommand<AdbWifiCommand>("adb-wifi")
+              .WithDescription("ADB Wifi Auto Connect");
         });
 
         int runResult = app.Run(args);
